@@ -1,0 +1,26 @@
+.navbar{
+    display: flex;
+    background-color: none;
+    width: 100%;
+    background-color: red;
+    margin: 0;
+    padding: 0;
+    .left{
+        column-count: 3;
+        img{
+            width: 60px;
+            height: auto;
+        }
+    }
+    .middle{
+        column-count: 6;
+    }
+    .right{
+        column-count: 3;
+        img{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+    }
+}
