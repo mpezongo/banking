@@ -1,0 +1,16 @@
+/* Style de l'axe X avec la classe "custom-x-axis" */
+.custom-x-axis {
+    stroke: red;
+    stroke-width: 1px;
+    color: red;
+  }
+  /* Style de l'axe Y avec la classe "custom-y-axis" */
+  .custom-y-axis .recharts-cartesian-axis-tick line {
+    stroke: #ccc;
+    stroke-width: 1px;
+  }
+  
+  .custom-y-axis .recharts-cartesian-axis-tick text {
+    fill: #666;
+    font-size: 12px;
+  }

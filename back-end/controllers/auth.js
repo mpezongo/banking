@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 
 exports.register = (req, res)=>{
     //check if user already exist
+    console.log
     const { nom, prenom, email, adresse, tel, password, confirmPassword} = req.body;
     if (password !== confirmPassword){
         return res.status(409).json("Password does not match");
@@ -35,7 +36,6 @@ exports.login = (req, res)=>{
         
         const token = jwt.sign({id:data[0].ID_Client}, "banking");
         const { password, ...other} = data[0];
-        console.log(other)
         res.cookie("accessToken", token, {
             httpOnly: true,
             secure:false
