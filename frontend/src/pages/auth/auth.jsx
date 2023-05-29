@@ -31,7 +31,7 @@ function Auth() {
     event.preventDefault();
 
     try {
-        await axios.post("http://localhost:5000/api/auth/register", formRegisterData);
+        await axios.post("http://localhost:5005/api/auth/register", formRegisterData);
         Navigate("/")
         // setFormSuccess(res.data.message);
     } catch (error) {

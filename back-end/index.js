@@ -3,6 +3,7 @@ const connect = require("./connect");
 const routerAuth = require("./routes/auth")
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
+const routerVM = require("./routes/VM");
 
 // Créer une instance de l'application Express
 const app = express();
@@ -26,9 +27,10 @@ app.get('/', (req, res) => {
 // route pour la création d'un compte
 app.use(cookieParser());
 app.use("/api/auth", routerAuth);
+app.use("/api/VM", routerVM);
 
 // Démarrer le serveur
-const port = 5000;
+const port = 5005;
 app.listen(port, () => {
   console.log(`Le serveur écoute sur le port ${port}`);
 });

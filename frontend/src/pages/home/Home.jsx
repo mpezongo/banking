@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '../../component/navbar/Navbar';
 import Chart from '../../component/chart/Chart';
 import './home.scss'
@@ -16,10 +16,49 @@ import LocalAtmRoundedIcon from '@mui/icons-material/LocalAtmRounded';
 import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded';
 import puce from "../../assets/puce-removebg-preview.png"
 import mastercard from "../../assets/mastercard.png"
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import key from '../../assets/ssh_key'
+import CloudDoneOutlinedIcon from '@mui/icons-material/CloudDoneOutlined';
 
 
 function Home() {
    
+    const Navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        vm_name:"",
+        vm_image:"ubuntu_image",
+        vm_flavor:"m1.xl"
+    })
+    const [formSuccess, setFormSuccess] = useState("");
+    const fetchData = async () => {
+        const response = await axios.post("http://localhost:5005/api/VM/getVM", {}, {
+          withCredentials: true,
+        });
+        return response.data;
+      };
+      
+      const { isLoading, error, data } = useQuery("vmData", fetchData);
+
+      const handleSubmit = async (event) => {
+        event.preventDefault();
+    
+        try {
+            const res = await axios.post("http://localhost:5005/api/VM/Create", formData, {
+                withCredentials:true,
+            });
+            setFormSuccess(res.data.message);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    console.log(formSuccess);
+    const handleChange = (event) => {
+        setFormData((prev) => ({
+            ...prev, [event.target.name]:event.target.value
+        }));
+    }
     return(
         <div className='home'>
             <Navbar />
@@ -96,127 +135,95 @@ function Home() {
                                     </div>
                                     <div className="content-box">
                                         <div className="icon">
-                                            <LocalAtmRoundedIcon />
+                                            <CloudDoneOutlinedIcon />
                                         </div>
-                                        <h3>Salary</h3>
-                                        <span>Regular payment</span>
-                                        <h2>$4,000.00</h2>
+                                        <h3>Total VM</h3>
+                                        {data ? <h2>{data.length }</h2>:0}
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="bottom">
-                            <h3>Recent transactions</h3>
+                            <h3>Machine Virtuelle active</h3>
                             <div className="content">
-                                <div className="icon">
-                                    <LocalTaxiTwoToneIcon />
+                                <div className="box">
+                                    Nom
                                 </div>
-                                <div className="name">
-                                    Taxi trips
+                                <div className="box">
+                                    Adresse IP
                                 </div>
-                                <div className="date">
-                                    03 Aug 2022, 15:45
+                                <div className="box">
+                                    Memoire
                                 </div>
-                                <div className="price">
-                                    <h3>$56.50</h3>
+                                <div className="box">
+                                    RAM
                                 </div>
-                                <div className="more">
+                                <div className="box">
+                                    Distribution
+                                </div>
+                                <div className="box">
                                     <MoreHorizTwoToneIcon />
                                 </div>
                             </div>
                                 <hr />
-                            <div className="content">
-                                <div className="icon">
-                                    <LocalTaxiTwoToneIcon />
+                            {error ? (
+                                <div>Something went wrong!</div>
+                                ) : isLoading ? (
+                                <div>Loading...</div>
+                                ) : (
+                                <div>
+                                    {data.map((vm) => (
+                                    <div key={vm.idvm} className="content">
+                                        <div className="box">
+                                            {vm.vm_name}
+                                        </div>
+                                        <div className="box">
+                                            {vm.vm_ip}
+                                        </div>
+                                        <div className="box">
+                                            {vm.vm_rom}Go
+                                        </div>
+                                        <div className="box">
+                                            {vm.vm_ram == 512 ? <span>{vm.vm_ram}Mo</span>:<span>{vm.vm_ram}Go</span> }
+                                        </div>
+                                        <div className="box">
+                                            {vm.vm_dist}
+                                        </div>
+                                        <div className="box">
+                                            <MoreHorizTwoToneIcon />
+                                        </div>
+                                    </div>
+                                    ))}
                                 </div>
-                                <div className="name">
-                                    Taxi trips
-                                </div>
-                                <div className="date">
-                                    03 Aug 2022, 15:45
-                                </div>
-                                <div className="price">
-                                    <h3>$56.50</h3>
-                                </div>
-                                <div className="more">
-                                    <MoreHorizTwoToneIcon />
-                                </div>
-                            </div>
-                                <hr />
-                            <div className="content">
-                                <div className="icon">
-                                    <LocalTaxiTwoToneIcon />
-                                </div>
-                                <div className="name">
-                                    Taxi trips
-                                </div>
-                                <div className="date">
-                                    03 Aug 2022, 15:45
-                                </div>
-                                <div className="price">
-                                    <h3>$56.50</h3>
-                                </div>
-                                <div className="more">
-                                    <MoreHorizTwoToneIcon />
-                                </div>
-                            </div>
-                                <hr />
-                            <div className="content">
-                                <div className="icon">
-                                    <LocalTaxiTwoToneIcon />
-                                </div>
-                                <div className="name">
-                                    Taxi trips
-                                </div>
-                                <div className="date">
-                                    03 Aug 2022, 15:45
-                                </div>
-                                <div className="price">
-                                    <h3>$56.50</h3>
-                                </div>
-                                <div className="more">
-                                    <MoreHorizTwoToneIcon />
-                                </div>
-                            </div>
+                            )}
                         </div>
                     </div>
                     <div className="right-right">
-                        <div className="top">
-                            <div className="depenses">
-                                <span>Daily Spent</span>
-                                <h2>$367.87</h2>
-                            </div>
-                            <div className="chart">
-                                <Chart/>
-                            </div>
-                        </div>
-                        <div className="bottom">
-                            <h3>Available cards</h3>
-                            <div className="cart">
-                                <div className="price">
-                                    <h2>98,500 <span>USD</span></h2>
-                                </div>
-                                <div className="numer">
-                                    ....4141
-                                </div>
-                                <div className="card">
-                                    <TollTwoToneIcon />
-                                </div>
-                            </div>
-                            <div className="cart">
-                                <div className="price">
-                                    <h2>98,500 <span>USD</span></h2>
-                                </div>
-                                <div className="number">
-                                    ....4141
-                                </div>
-                                <div className="card">
-                                    <h3>VISA</h3>
-                                </div>
-                            </div>
-                        </div>
+                        <form onSubmit={handleSubmit}>
+                            <input type="text" name='vm_name' placeholder='Nom de la VM' onChange={handleChange} required/>
+                            <select name="vm_image" id="dist" onChange={handleChange}>
+                                <option value="ubuntu_image">Ubuntu</option>
+                                <option value="centos_image">Centos</option>
+                                <option value="debian_image">Debian</option>
+                                <option value="windows_image">Windows</option>
+                            </select>
+                            <select name="vm_flavor" onChange={handleChange}>
+                                <option value="m1.xl">5Go ROM et 512Mo RAM</option>
+                                <option value="m1.xxl">10Go ROM et 1GB RAM</option>
+                                <option value="m1.xxxl">15Go ROM et 2GB RAM</option>
+                                <option value="m1.xxxxl">20Go ROM et 4GB RAM</option>
+                            </select>
+                            <button type='submit'>Créer</button>
+                        </form>
                     </div>
                 </div>
+            </div>
+            <div className="log">
+                <div>Cliquer <a href={key} download='key_ssh'>Ici</a> pour télécharger votre clé ssh privée.</div>
+                <span>Pour vous connecter à une de vos machine utilisé <span className='ssh'>ssh -i "votre_clé_ssh" dist@ip</span></span>
+                <span>Remplacer dist par la distribution de votre machine</span>
+                <span>N'oubliez pas de donner les droits 600 à votre clé ssh</span>
             </div>
         </div>
     )
