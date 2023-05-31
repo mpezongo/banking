@@ -7,7 +7,7 @@ export function AuthContextProvider({ children }) {
         JSON.parse(localStorage.getItem("user")) || null
     );
     const login = async (inputs) => {
-        const res = await axios.post("http://localhost:5003/api/auth/login", inputs, {
+        const res = await axios.post("http://localhost:5005/api/auth/login", inputs, {
             withCredentials:true
         });
 

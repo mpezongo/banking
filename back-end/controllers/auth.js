@@ -38,15 +38,19 @@ exports.login = (req, res)=>{
         const { password, ...other} = data[0];
         res.cookie("accessToken", token, {
             httpOnly: true,
-            secure:false
+            secure:true,
+            sameSite:"none"
         }).status(200).json(other);
     })
 }
 
 
 exports.logout = (req, res)=>{
-    res.clearCookie("accessToken", {
-        Secure:true,
-        sameSite:"none"
-    }).status(200).json("User has been logout");
+    const token = req.cookies.accessToken;
+    if (token){
+        res.clearCookie("accessToken", {
+            secure:true,
+            sameSite:"none"
+        }).status(200).json("User has been logout");
+    }
 }

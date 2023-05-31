@@ -40,7 +40,18 @@ function Home() {
       };
       
       const { isLoading, error, data } = useQuery("vmData", fetchData);
-
+      const handleLogout = async (event) => {
+        event.preventDefault();
+        try {
+            const res = await axios.post("http://localhost:5005/api/auth/logout",{}, {
+                withCredentials:true,
+            });
+            localStorage.removeItem("user");
+            Navigate('/auth')
+        } catch (error) {
+            console.log(error)
+        }
+    }
       const handleSubmit = async (event) => {
         event.preventDefault();
     
@@ -91,7 +102,7 @@ function Home() {
                         </div>
                         <div className="content">
                             <LogoutOutlinedIcon />
-                            Logout
+                            <button onClick={handleLogout}>Logout</button>
                         </div>
                     </div>
                 </div>
