@@ -19,7 +19,7 @@ app.use(cors({
     origin: "http://localhost:3000",
     credentials: true
 }));
-// Route racine
+// Route racineg
 app.get('/', (req, res) => {
   res.send('Bienvenue sur mon projet Node.js !');
 });

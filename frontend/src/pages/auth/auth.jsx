@@ -32,7 +32,7 @@ function Auth() {
 
     try {
         await axios.post("http://localhost:5005/api/auth/register", formRegisterData);
-        Navigate("/")
+        window.location.reload();
         // setFormSuccess(res.data.message);
     } catch (error) {
         console.log(error)

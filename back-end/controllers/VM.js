@@ -33,7 +33,7 @@ exports.Create = (req, res) => {
       const sql = "SELECT * FROM vm WHERE vm_name = ?";
       connect.db.query(sql, [vm_name], (error, data) => {
         if (error) return res.status(500).json(error);
-        if (data.length) return res.status(409).json("Cette machine existe déjà");
+        if (data.length) return res.status(409).json({message:"Cette machine existe déjà veillez changer de nom"});
         exec(`microstack launch ${vm_image} --flavor ${vm_flavor} -n ${vm_name}`, (error, stdout, stderr) => {
             if (error) {
               console.error(`Une erreur s'est produite: ${error}`);
@@ -68,7 +68,6 @@ exports.Create = (req, res) => {
 
   // req.setTimeout(0); // Désactiver le timeout de la requête
   })
-  // console.log(vm_flavor);
 }
 
 exports.getVM = (req, res) => {

@@ -11,6 +11,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-size: cover;
     .body{
         padding: 20px;
         display: flex;
@@ -110,6 +111,57 @@
                         color: white;
                         font-size: 20px;                        
                         font-family: 'Courier New', Courier, monospace;
+                    }
+                    .creating{
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 30px;
+                        // width: 300px;
+                        height: 50px;
+                        border-radius: 20px;
+                        span{
+                            font-size: 20px;
+                            color: rgb(0, 255, 0, .5);
+                            text-align: center;
+                        }
+                        .loader-container{
+                            display: flex;
+                            .dot{
+                                position: relative;
+                                width: 20px;
+                                height: 20px;
+                                border-radius: 50%;
+                                background-color: #34495E;
+                                margin: 0 5px;
+                                animation: loader infinite 0.3s alternate;
+                            }
+                            .d2{
+                                animation-delay: 0.05s;
+                            }
+                            .d3{
+                                animation-delay: 0.1s;
+                            }
+                        }
+                    }
+                    .create{
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 30px;
+                        // width: 300px;
+                        height: 50px;
+                        border-radius: 20px;
+                        width: 250px;
+                        font-size: 20px;
+                        color: rgb(0, 255, 0, .5);
+                        text-align: center;
+                    }
+                    .error{
+                        text-align: center;
+                        color: red;
                     }
                 }
             }
@@ -244,5 +296,11 @@
             height: 10px;
             text-decoration: none;
         }
+    }
+}
+
+@keyframes loader{
+    100%{
+        transform: translateY(-30px);
     }
 }
